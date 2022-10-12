@@ -56,15 +56,13 @@
     }
   }
 
-  function createVideoUI() {
-    const newVideoContainer = document.getElementById('new-videos');
-
-    const videoEl = document.createElement('video');
-    const sourceEl = document.createElement('source');
-    const videoElId = `video-${videoNumber}`;
+  function createInput(videoElId, startTime, endTime) {
+    // const startInputContainer = document.createElement('div');
+    // const endInputContainer = document.createElement('div');
 
     const startInput = document.createElement('input');
     const endInput = document.createElement('input');
+    const inputContainer = document.createElement('div');
 
     startInput.setAttribute('type', 'text');
     endInput.setAttribute('type', 'text');
@@ -78,6 +76,48 @@
     startInput.setAttribute('value', startTime);
     endInput.setAttribute('value', endTime);
 
+    return {
+      inputContainer,
+      startInput,
+      endInput,
+    };
+  }
+
+  function toggleStartTime(evt) {
+    const videoId = evt.target.dataset.videoid;
+    const thisVideoEl = document.getElementById(videoId);
+    const startTime = thisVideoEl.dataset.start;
+    thisVideoEl.dataset.start = startTime - 0.5;
+    thisVideoEl.dataset.start = startTime - 0.5;
+  }
+
+  function addStartEndTimeAdjusters(
+    startInput,
+    endInput,
+    inputContainer,
+    videoElId,
+  ) {
+    const startBtn = document.createElement('button');
+    startBtn.innerText = 'toggle by -0.5'; // assume it is even possible
+    startBtn.setAttribute('data-videoId', videoElId);
+    inputContainer.appendChild(startBtn);
+    startBtn.addEventListener('click', toggleStartTime);
+  }
+
+  function createVideoUI() {
+    const newVideoContainer = document.getElementById('new-videos');
+    newVideoContainer.style.textAlign = 'center';
+
+    const videoEl = document.createElement('video');
+    const sourceEl = document.createElement('source');
+    const videoElId = `video-${videoNumber}`;
+
+    const { inputContainer, startInput, endInput } = createInput(
+      videoElId,
+      startTime,
+      endTime,
+    );
+
     videoEl.setAttribute('id', videoElId);
     videoEl.setAttribute('controls', true);
     videoEl.setAttribute('height', '300px');
@@ -85,8 +125,12 @@
     videoEl.setAttribute('data-end', endTime);
 
     newVideoContainer.appendChild(videoEl);
-    newVideoContainer.appendChild(startInput);
-    newVideoContainer.appendChild(endInput);
+    newVideoContainer.appendChild(inputContainer);
+
+    inputContainer.appendChild(startInput);
+    inputContainer.appendChild(endInput);
+
+    addStartEndTimeAdjusters(startInput, endInput, inputContainer, videoElId);
 
     sourceEl.setAttribute('type', 'video/webm');
     sourceEl.setAttribute('data-start', startTime);
