@@ -1,0 +1,31 @@
+<body>
+  <div style="width: fit-content">
+    <div id="video-container">
+      <video controls autoplay id="Video1">
+        <source src="{{Front}}" type="video/webm" />
+        Sorry, your browser doesnt support embedded videos
+      </video>
+    </div>
+    <div
+      style="display: flex; padding-top: 10px; justify-content: space-around"
+    >
+      <button onClick="skip(-1)" style="padding: 10px">Rewind -1</button>
+      <button onClick="skip(1)" style="padding: 10px">Forward +1</button>
+    </div>
+  </div>
+</body>
+<script type="text/javascript">
+  function skip(value) {
+    var video = document.getElementById('Video1');
+    video.currentTime += value;
+  }
+  document.getElementById('video-container').onkeydown = function (e) {
+    console.log(e.keyCode);
+    if (e.key == 'ArrowLeft') {
+      skip(-1);
+    }
+    if (e.key == 'ArrowRight') {
+      skip(1);
+    }
+  };
+</script>
