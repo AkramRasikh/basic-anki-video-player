@@ -63,6 +63,21 @@
     const sourceEl = document.createElement('source');
     const videoElId = `video-${videoNumber}`;
 
+    const startInput = document.createElement('input');
+    const endInput = document.createElement('input');
+
+    startInput.setAttribute('type', 'text');
+    endInput.setAttribute('type', 'text');
+
+    startInput.setAttribute('id', `start-input-${videoElId}`);
+    endInput.setAttribute('id', `end-input-${videoElId}`);
+
+    startInput.setAttribute('disabled', true);
+    endInput.setAttribute('disabled', true);
+
+    startInput.setAttribute('value', startTime);
+    endInput.setAttribute('value', endTime);
+
     videoEl.setAttribute('id', videoElId);
     videoEl.setAttribute('controls', true);
     videoEl.setAttribute('height', '300px');
@@ -70,6 +85,8 @@
     videoEl.setAttribute('data-end', endTime);
 
     newVideoContainer.appendChild(videoEl);
+    newVideoContainer.appendChild(startInput);
+    newVideoContainer.appendChild(endInput);
 
     sourceEl.setAttribute('type', 'video/webm');
     sourceEl.setAttribute('data-start', startTime);
