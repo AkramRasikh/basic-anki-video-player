@@ -57,8 +57,13 @@
     videoEl.setAttribute('height', '300px');
     newVideoContainer.appendChild(videoEl);
 
-    sourceEl.setAttribute('src', './example-video.webm');
     sourceEl.setAttribute('type', 'video/webm');
+    sourceEl.setAttribute('data-start', startTime);
+    sourceEl.setAttribute('data-end', endTime);
+    sourceEl.setAttribute(
+      'src',
+      `./example-video.webm#t=${startTime},${endTime}`,
+    );
     videoEl.appendChild(sourceEl);
     console.log('## createVideoUI finished');
   }
