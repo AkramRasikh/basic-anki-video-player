@@ -12,15 +12,57 @@
       <button onClick="skip(-1)" style="padding: 10px">Rewind -1</button>
       <button onClick="skip(1)" style="padding: 10px">Forward +1</button>
     </div>
+    <div
+      style="display: flex; padding-top: 10px; justify-content: space-around"
+    >
+      <button onmousedown="start()" onmouseup="end()">Record</button>
+    </div>
   </div>
+  <div id="new-videos"></div>
 </body>
 <script type="text/javascript">
+  var video = document.getElementById('Video1');
+  let startTime;
+  let endTime;
+  let videoNumber = 0;
   function skip(value) {
-    var video = document.getElementById('Video1');
     video.currentTime += value;
   }
+
+  function start() {
+    // if already in a paused state, reject!
+    console.log('## start (video.currentTime): ', video.currentTime);
+    startTime = video.currentTime;
+  }
+  function end() {
+    console.log('## end (video.currentTime): ', video.currentTime);
+    endTime = video.currentTime;
+    createVideoUI();
+    videoNumber = videoNumber += 1;
+  }
+
+  function createVideoUI() {
+    console.log(
+      '## startTime, endTime, videoNumber: ',
+      startTime,
+      endTime,
+      videoNumber,
+    );
+    const newVideoContainer = document.getElementById('new-videos');
+
+    const videoEl = document.createElement('video');
+    const sourceEl = document.createElement('source');
+    videoEl.setAttribute('id', `video-${videoNumber}`);
+    videoEl.setAttribute('controls', true);
+    videoEl.setAttribute('height', '300px');
+    newVideoContainer.appendChild(videoEl);
+
+    sourceEl.setAttribute('src', './example-video.webm');
+    sourceEl.setAttribute('type', 'video/webm');
+    videoEl.appendChild(sourceEl);
+    console.log('## createVideoUI finished');
+  }
   document.getElementById('video-container').onkeydown = function (e) {
-    console.log(e.keyCode);
     if (e.key == 'ArrowLeft') {
       skip(-1);
     }
