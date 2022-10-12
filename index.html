@@ -31,11 +31,9 @@
 
   function start() {
     // if already in a paused state, reject!
-    console.log('## start (video.currentTime): ', video.currentTime);
     startTime = video.currentTime;
   }
   function end() {
-    console.log('## end (video.currentTime): ', video.currentTime);
     endTime = video.currentTime;
     createVideoUI();
     videoNumber = videoNumber += 1;
